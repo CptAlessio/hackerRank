@@ -12,11 +12,43 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System;
 
-
 namespace hackerRank
 {
     class Program
     {
+
+        /*
+         * Complete the 'birthdayCakeCandles' function below.
+         *
+         * The function is expected to return an INTEGER.
+         * The function accepts INTEGER_ARRAY candles as parameter.
+         */
+        public static int birthdayCakeCandles(List<int> candles)
+        {
+            var maxHeight = candles.Max();
+            var counter = candles.Count(x => x == maxHeight);
+            return counter;
+        }
+        
+        /*
+         * Complete the 'miniMaxSum' function below.
+         *
+         * The function accepts INTEGER_ARRAY arr as parameter.
+         */
+        public static void miniMaxSum(List<int> arr)
+        {
+            arr.Sort();
+            var totalLowest =  long.Parse(arr[0].ToString()) 
+                               + long.Parse(arr[1].ToString()) 
+                               + long.Parse(arr[2].ToString()) 
+                               + long.Parse(arr[3].ToString());
+            arr.Reverse();
+            var totalHighest = long.Parse(arr[0].ToString())  + long.Parse(arr[1].ToString()) 
+                                                              + long.Parse(arr[2].ToString()) 
+                                                              + long.Parse(arr[3].ToString());
+            Console.WriteLine(totalLowest+ " " + totalHighest);
+        }
+        
         /*
          * Complete the 'timeConversion' function below.
          *
@@ -219,18 +251,6 @@ namespace hackerRank
             arr.Add(1);
             plusMinus(arr);
             */
-            
-            /*
-            List<List<int>> arr = new List<List<int>>();
-            arr.Add(new List<int>() {-10,3,0,5,-4});
-            arr.Add(new List<int>() {2,-1,0,2,-8});
-            arr.Add(new List<int>() {9,-2,-5,6,0});
-            arr.Add(new List<int>() {9,-7,4,8,-2});
-            arr.Add(new List<int>() {3,7,8,-5,0});
-            Console.WriteLine(diagonalDifference(arr).ToString());
-            */
-            //staircase(10);
-            Console.WriteLine(timeConversion("12:45:54PM")); 
         }
     }
 }
