@@ -17,6 +17,94 @@ namespace hackerRank
 {
     class Program
     {
+        /// <summary>
+        /// Run tests
+        /// </summary>
+        public static void Main()
+        {
+            Console.WriteLine(encryption("haveaniceday"));
+            Console.WriteLine(encryption("feedthedog"));
+            Console.WriteLine(encryption("chillout"));
+        }
+        
+        /*
+         * Complete the 'encryption' function below.
+         *
+         * The function is expected to return a STRING.
+         * The function accepts STRING s as parameter.
+         */
+        public static string encryption(string s)
+        {
+            var inputString = s.Replace(" ", "");
+            int stringLength = inputString.Length;
+
+            int rows = (int)Math.Sqrt(stringLength);
+            int columns = (int)Math.Ceiling(Math.Sqrt(stringLength));
+
+            List<string> grid = new List<string>();
+
+            for (int i = 0; i < rows; i++)
+            {
+                int startIndex = i * columns;
+                int length = Math.Min(columns, stringLength - startIndex);
+                string lineToAddToGrid = inputString.Substring(startIndex, length);
+                grid.Add(lineToAddToGrid);
+            }
+
+            StringBuilder output = new StringBuilder();
+
+            for (int column = 0; column < columns; column++)
+            {
+                for (int row = 0; row < rows; row++)
+                {
+                    if (column < grid[row].Length)
+                    {
+                        output.Append(grid[row][column]);
+                    }
+                }
+
+                output.Append(" ");
+            }
+
+            return output.ToString().Trim();
+        }
+        
+        
+        
+        /*
+         * Complete the 'organizingContainers' function below.
+         *
+         * The function is expected to return a STRING.
+         * The function accepts 2D_INTEGER_ARRAY container as parameter.
+         */
+        public static string organizingContainers(List<List<int>> container)
+        {
+            int n = container.Count;
+            int[] containerCapacity = new int[n];
+            int[] ballCount = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    containerCapacity[i] += container[i][j];
+                    ballCount[j] += container[i][j];
+                }
+            }
+
+            Array.Sort(containerCapacity);
+            Array.Sort(ballCount);
+
+            if (containerCapacity.SequenceEqual(ballCount))
+            {
+                return "Possible";
+            }
+            else
+            {
+                return "Impossible";
+            }
+        }
+        
         
         /*
          * Complete the 'timeInWords' function below.
@@ -198,8 +286,7 @@ namespace hackerRank
             }
             return output;
         }
-        
-        
+
         public static List<int> climbingLeaderboard(List<int> ranked, List<int> player)
         {
             List<int> finalResponse = new List<int>();
@@ -402,13 +489,6 @@ namespace hackerRank
             Console.WriteLine(zeroRatio.ToString("0.000000"));
         }
         
-        public static void Main()
-        {
-            Console.WriteLine(timeInWords(4, 15));
-            
 
-
-
-        }
     }
 }
