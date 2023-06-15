@@ -1,2 +1,5 @@
 # hackerRank
-A collection of my solutions to coding challenges on HackerRank https://www.hackerrank.com/RegiaMarinaAlex?hr_r=1
+A collection of my solutions to coding challenges on HackerRank 
+
+Currently at Silver in Problem Solving
+https://www.hackerrank.com/RegiaMarinaAlex
