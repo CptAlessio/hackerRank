@@ -1,17 +1,5 @@
-﻿using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using System.Text;
-using System;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.Text;
+
 
 namespace hackerRank
 {
@@ -22,11 +10,236 @@ namespace hackerRank
         /// </summary>
         public static void Main()
         {
-            Console.WriteLine(encryption("haveaniceday"));
-            Console.WriteLine(encryption("feedthedog"));
-            Console.WriteLine(encryption("chillout"));
+            List<int> testCase = new List<int>() { 10, 5, 20, 20, 4, 5, 2, 25, 1 };
+            breakingRecords(testCase);
         }
         
+        public static List<int> breakingRecords(List<int> scores)
+        {
+            int counterImproved = 0;
+            int counterWorst = 0;
+            int currentRecord = 0;
+            int currentWorst = 0;
+            for (int i = 0; i < scores.Count; i++)
+            {
+                if (i == 0)
+                {
+                    currentRecord = scores[i];
+                    currentWorst = scores[i];
+                }
+                
+                if (scores[i] > currentRecord)
+                {
+                    currentRecord = scores[i];
+                    counterImproved++;
+                }
+                
+                if (scores[i] < currentRecord)
+                {
+                    if (scores[i] < currentWorst)
+                    {
+                        counterWorst++;
+                        currentWorst = scores[i];
+                    }
+                }
+            }
+            
+            List<int> returnResult = new List<int>(){counterImproved, counterWorst};
+            return returnResult;
+        }
+        
+
+        public static string dayOfProgrammer(int year)
+        {
+            string returnValue = string.Empty;
+            bool leapYear = false;
+            switch (year)
+            {
+                case <= 1917: // julian
+                    if (year % 4 == 0) // leap year
+                    {
+                        leapYear = true;
+                    }
+                    break;
+                
+                case 1918:
+                    return "26.09.1918";
+                    break;
+                
+                case >=1919: // gregorian
+                    if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) // leap year
+                    {
+                        leapYear = true;
+                    }
+                    break;
+            }
+
+            if (leapYear)
+            {
+                returnValue = "12.09." + year.ToString();
+            }
+            else
+            {
+                returnValue = "13.09." + year.ToString();
+            }
+            return returnValue;
+        }
+
+        private static bool isAlreadySorted(List<int> arr)
+        {
+            var sortedArray = arr.OrderBy(x => x);
+            return arr.SequenceEqual(sortedArray);
+        }
+        
+        public static string larrysArray(List<int> A)
+        {
+            int lenArrayA = A.Count;
+            int timesValueIsNotInorder = 0;
+            for (int i = 0; i < lenArrayA; i++)
+            {
+                for (int ii = i + 1; ii < lenArrayA; ii++)
+                {
+                    if (A[i] > A[ii])
+                    {
+                        timesValueIsNotInorder++;
+                    }
+                }
+            }
+            
+            if (timesValueIsNotInorder % 2 == 0)
+            {
+                return "YES";
+            }
+            else
+            {
+                return "NO";
+            }
+
+        }
+
+        public static int getTotalX(List<int> a, List<int> b)
+        {
+            HashSet<int> firstArray = new HashSet<int>(a);
+            HashSet<int> secondArray = new HashSet<int>(b);
+
+            int trackerOfOccurrences = 0;
+
+            int maximumOfArrayA = firstArray.Max();
+            int minimumOfArrayB = secondArray.Min();
+
+            for (int i = maximumOfArrayA; i <= minimumOfArrayB; i++)
+            {
+                bool conditionForArrayA = true;
+                bool conditionForArrayB = true;
+                
+                // loop array A and see if each value is a factor of i
+                foreach (int currentNumberInArrayA in firstArray)
+                {
+                    if (i % currentNumberInArrayA != 0)
+                    {
+                        conditionForArrayA = false;
+                        break;
+                    }
+                }
+                
+                // The integer being considered is a factor of all elements of the second array
+                foreach (int currentNumberInArrayB in secondArray)
+                {
+                    if (currentNumberInArrayB % i != 0)
+                    {
+                        conditionForArrayB = false;
+                        break;
+                    }
+                }
+                
+                // they should both be true
+                if (conditionForArrayA && conditionForArrayB)
+                {
+                    trackerOfOccurrences++;
+                }
+            }
+            return trackerOfOccurrences;
+        }
+        
+        /*
+         * Complete the 'gridSearch' function below.
+         *
+         * The function is expected to return a STRING.
+         * The function accepts following parameters:
+         *  1. STRING_ARRAY G
+         *  2. STRING_ARRAY P
+         */
+        public static string gridSearch(List<string> G, List<string> P)
+        {
+            int rows = G.Count;
+            int cols = G[0].Length;
+            int patternRows = P.Count;
+            int patternCols = P[0].Length;
+
+            for (int i = 0; i <= rows - patternRows; i++) {
+                for (int j = 0; j <= cols - patternCols; j++) {
+                    if (G[i][j] == P[0][0]) {
+                        bool patternMatch = true;
+                        for (int k = 0; k < patternRows; k++) {
+                            for (int l = 0; l < patternCols; l++) {
+                                if (G[i + k][j + l] != P[k][l]) {
+                                    patternMatch = false;
+                                    break;
+                                }
+                            }
+                            if (!patternMatch) {
+                                break;
+                            }
+                        }
+                        // If pattern matches, return "YES"
+                        if (patternMatch) {
+                            return "YES";
+                        }
+                    }
+                }
+            }
+
+            // If pattern is not found, return "NO"
+            return "NO";
+        }
+        
+        
+        
+        public static int solution(int[] A)
+        {
+            int returnValue = 1;
+            HashSet<int> arrayOfPositives = new HashSet<int>();
+            
+            // create array of positives from input A
+            foreach (int numberInArrayA in A)
+            {
+                // if it is positive than add it to my new list.
+                if (numberInArrayA > 0)
+                {
+                    arrayOfPositives.Add(numberInArrayA);
+                }
+            }
+
+            if (arrayOfPositives.Count == 0)
+            {
+                return returnValue;
+            }
+            else
+            {
+                // get maxValue in Array
+                int maxValue = arrayOfPositives.Max();
+                for (int testSmallValue = 1; testSmallValue <= maxValue+1; testSmallValue++)
+                {
+                    if (!arrayOfPositives.Contains(testSmallValue))
+                    {
+                        return testSmallValue;
+                    }
+                } 
+            }
+
+            return returnValue;
+        }
+       
         /*
          * Complete the 'encryption' function below.
          *
@@ -69,8 +282,6 @@ namespace hackerRank
             return output.ToString().Trim();
         }
         
-        
-        
         /*
          * Complete the 'organizingContainers' function below.
          *
@@ -104,7 +315,6 @@ namespace hackerRank
                 return "Impossible";
             }
         }
-        
         
         /*
          * Complete the 'timeInWords' function below.
@@ -406,8 +616,7 @@ namespace hackerRank
             List<int> absDiffLeftToRight = new List<int>();
             List<int> absDiffRightToLeft = new List<int>();
 
-            int firstLastvalue = 0;
-            
+           
             // get value of rowsColums
             // get lastValue of array 0 value rowsColumns
             // get lastValue-1 of array 1 value rowsColumns
@@ -488,7 +697,5 @@ namespace hackerRank
             Console.WriteLine(negRatio.ToString("0.000000"));
             Console.WriteLine(zeroRatio.ToString("0.000000"));
         }
-        
-
     }
 }
