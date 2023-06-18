@@ -1,19 +1,81 @@
 ﻿using System.Text;
 
-
 namespace hackerRank
 {
     class Program
     {
         /// <summary>
-        /// Run tests
+        /// Tests
         /// </summary>
         public static void Main()
         {
-            List<int> testCase = new List<int>() { 10, 5, 20, 20, 4, 5, 2, 25, 1 };
-            breakingRecords(testCase);
+
         }
         
+        public static void countApplesAndOranges(int s, int t, int a, int b, List<int> apples, List<int> oranges)
+        {
+            int applesFallsInHouse = 0;
+            int orangesFallsInHouse = 0;
+
+            int houseStartingPoint = s;
+            int houseEndingLocation = t;
+            int appleTreeLocation = a;
+            int orangeTreeLocation = b;
+
+            for (int appleLocation = 0; appleLocation < apples.Count; appleLocation++)
+            {
+                if ((apples[appleLocation]+appleTreeLocation >= houseStartingPoint && (apples[appleLocation]+appleTreeLocation <= houseEndingLocation)))
+                {
+                    applesFallsInHouse++;
+                }
+            }
+            
+            for (int orangeLocation = 0; orangeLocation < oranges.Count; orangeLocation++)
+            {
+                if (oranges[orangeLocation]+orangeTreeLocation >= houseStartingPoint && 
+                    (oranges[orangeLocation]+orangeTreeLocation <= houseEndingLocation))
+                {
+                    orangesFallsInHouse++;
+                }
+            }
+            Console.WriteLine(applesFallsInHouse.ToString());
+            Console.WriteLine(orangesFallsInHouse.ToString());
+        }
+        
+        public static int binaryZeroGapCounter(int N) {
+        
+            int counter = 0;
+            int maxSequence = 0;
+            bool previousZero = false;
+
+            // find binary representation of 
+            string NToBinary = Convert.ToString(N, 2);
+            
+            // convert it to an array
+            char[] NArray = NToBinary.ToCharArray();
+            // loop array and count the consecutive 0
+            for (int i = 0; i < NArray.Length; i++)
+            {
+                int tempConvert = int.Parse(NArray[i].ToString());
+                if (tempConvert == 0)
+                {
+                    counter++;
+                    previousZero = true;
+                }
+                
+                if (tempConvert == 1 && previousZero)
+                {
+                    if (counter > maxSequence)
+                    {
+                        maxSequence = counter;    
+                    }
+                    previousZero = false;
+                    counter = 0;
+                }
+            }
+            return maxSequence;
+        }
+
         public static List<int> breakingRecords(List<int> scores)
         {
             int counterImproved = 0;
@@ -48,7 +110,6 @@ namespace hackerRank
             return returnResult;
         }
         
-
         public static string dayOfProgrammer(int year)
         {
             string returnValue = string.Empty;
@@ -161,14 +222,6 @@ namespace hackerRank
             return trackerOfOccurrences;
         }
         
-        /*
-         * Complete the 'gridSearch' function below.
-         *
-         * The function is expected to return a STRING.
-         * The function accepts following parameters:
-         *  1. STRING_ARRAY G
-         *  2. STRING_ARRAY P
-         */
         public static string gridSearch(List<string> G, List<string> P)
         {
             int rows = G.Count;
@@ -203,8 +256,6 @@ namespace hackerRank
             return "NO";
         }
         
-        
-        
         public static int solution(int[] A)
         {
             int returnValue = 1;
@@ -213,20 +264,16 @@ namespace hackerRank
             // create array of positives from input A
             foreach (int numberInArrayA in A)
             {
-                // if it is positive than add it to my new list.
+                // only add positives to the Hashset
                 if (numberInArrayA > 0)
                 {
                     arrayOfPositives.Add(numberInArrayA);
                 }
             }
 
-            if (arrayOfPositives.Count == 0)
-            {
-                return returnValue;
-            }
+            if (arrayOfPositives.Count == 0)  { return returnValue; }
             else
             {
-                // get maxValue in Array
                 int maxValue = arrayOfPositives.Max();
                 for (int testSmallValue = 1; testSmallValue <= maxValue+1; testSmallValue++)
                 {
@@ -240,12 +287,6 @@ namespace hackerRank
             return returnValue;
         }
        
-        /*
-         * Complete the 'encryption' function below.
-         *
-         * The function is expected to return a STRING.
-         * The function accepts STRING s as parameter.
-         */
         public static string encryption(string s)
         {
             var inputString = s.Replace(" ", "");
@@ -282,12 +323,6 @@ namespace hackerRank
             return output.ToString().Trim();
         }
         
-        /*
-         * Complete the 'organizingContainers' function below.
-         *
-         * The function is expected to return a STRING.
-         * The function accepts 2D_INTEGER_ARRAY container as parameter.
-         */
         public static string organizingContainers(List<List<int>> container)
         {
             int n = container.Count;
@@ -316,14 +351,6 @@ namespace hackerRank
             }
         }
         
-        /*
-         * Complete the 'timeInWords' function below.
-         *
-         * The function is expected to return a STRING.
-         * The function accepts following parameters:
-         *  1. INTEGER h
-         *  2. INTEGER m
-         */
         public static string timeInWords(int h, int m)
         {
             Dictionary<int, string> hours = new Dictionary<int, string>();
@@ -447,12 +474,6 @@ namespace hackerRank
             return returnValue;
         }
         
-        /*
-         * Complete the 'gradingStudents' function below.
-         *
-         * The function is expected to return an INTEGER_ARRAY.
-         * The function accepts INTEGER_ARRAY grades as parameter.
-         */
         public static List<int> gradingStudents(List<int> grades)
         {
             List<int> output = new List<int>();
