@@ -9,7 +9,131 @@ namespace hackerRank
         /// </summary>
         public static void Main()
         {
+            List<int> test = new List<int>() { 1, 4, 4, 4, 5, 3 };
+            migratoryBirds(test);
+        }
+        
+        public static int migratoryBirds(List<int> arr)
+        {
+            Dictionary<int, int> tracker = new Dictionary<int, int>();
+            int mostSeenBird = 0;
 
+            foreach (int birdType in arr)
+            {
+                if (!tracker.ContainsKey(birdType))
+                {
+                    tracker[birdType] = 1;
+                }
+                else
+                {
+                    tracker[birdType]++;
+                }
+            }
+
+            int maxSeen = tracker.Values.Max();
+            List<int> mostSeenBirds = new List<int>();
+
+            if (tracker.Count(x => x.Value == maxSeen) > 1)
+            {
+                foreach (KeyValuePair<int, int> birdBird in tracker)
+                {
+                    if (birdBird.Value == maxSeen)
+                    {
+                        mostSeenBirds.Add(birdBird.Key);
+                    }
+                }
+                mostSeenBirds.Sort();
+                mostSeenBird = mostSeenBirds[0];
+            }
+            else
+            {
+                foreach (KeyValuePair<int, int> pair in tracker)
+                {
+                    if (pair.Value == maxSeen)
+                    {
+                        mostSeenBird = pair.Key;
+                    }
+                }
+            }
+            return mostSeenBird;
+        }
+        
+        public static int divisibleSumPairs(int n, int k, List<int> ar)
+        {
+            int arrayLen = ar.Count;
+            int divisor = k;
+            int counter = 0;
+
+            for (int i = 0; i < arrayLen; i++)
+            {
+                for (int ii = i+1; ii < arrayLen; ii++)
+                {
+                    if ((ar[i] + ar[ii]) % divisor == 0)
+                    {
+                        counter++;
+                    }
+                }
+            }
+            return counter;
+        }
+
+        public static int birthday(List<int> s, int d, int m)
+        {
+            int canBeReturned = 0;
+
+            if (m == 1)
+            {
+                canBeReturned = s.Select(x => x == 1).Count();
+            }
+            else
+            {
+                List<int> bar = s.ToList();
+                int SumElements = d; // sum of elements must be this value
+                int SubArrayLong = m; // sub array must be this long
+               
+                for (int i = 0; i<bar.Count-SubArrayLong+1; i++)
+                {
+                    int total = 0;
+                
+                    for (int ii = i; ii < i + SubArrayLong; ii++)
+                    {
+                        total = total + bar[ii];
+                    }
+
+                    if (total == SumElements)
+                    {
+                        canBeReturned++;
+                    }
+                }
+            }
+            return canBeReturned;
+        }
+
+        public static string kangaroo(int x1, int v1, int x2, int v2)
+        {
+            string bothMeet = "NO";
+
+            if (v2 > v1)
+            {
+                if (x1 < x2)
+                {
+                    return bothMeet;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 10000; i++)
+                {
+                    x1 = x1 + v1;
+                    x2 = x2 + v2;
+
+                    if (x1 == x2)
+                    {
+                        bothMeet = "YES";
+                    }
+                }
+            }
+            return bothMeet;
         }
         
         public static void countApplesAndOranges(int s, int t, int a, int b, List<int> apples, List<int> oranges)
@@ -24,7 +148,8 @@ namespace hackerRank
 
             for (int appleLocation = 0; appleLocation < apples.Count; appleLocation++)
             {
-                if ((apples[appleLocation]+appleTreeLocation >= houseStartingPoint && (apples[appleLocation]+appleTreeLocation <= houseEndingLocation)))
+                if (apples[appleLocation]+appleTreeLocation >= houseStartingPoint && 
+                    (apples[appleLocation]+appleTreeLocation <= houseEndingLocation))
                 {
                     applesFallsInHouse++;
                 }
@@ -33,7 +158,7 @@ namespace hackerRank
             for (int orangeLocation = 0; orangeLocation < oranges.Count; orangeLocation++)
             {
                 if (oranges[orangeLocation]+orangeTreeLocation >= houseStartingPoint && 
-                    (oranges[orangeLocation]+orangeTreeLocation <= houseEndingLocation))
+                    oranges[orangeLocation]+orangeTreeLocation <= houseEndingLocation)
                 {
                     orangesFallsInHouse++;
                 }
