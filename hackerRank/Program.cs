@@ -1,16 +1,277 @@
-﻿using System.Text;
+﻿// Alessio M 2023
+// https://www.hackerrank.com/RegiaMarinaAlex
+// All solutions score 10.00/10.00 unless stated otherwise
+
+using System.Text;
 
 namespace hackerRank
 {
     class Program
     {
-        /// <summary>
-        /// Tests
-        /// </summary>
+        // Used to run tests 
         public static void Main()
         {
-            List<int> test = new List<int>() { 1, 4, 4, 4, 5, 3 };
-            migratoryBirds(test);
+            beautifulDays(20, 23, 6);
+        }
+
+        public static int beautifulDays(int i, int j, int k)
+        {
+            int startingDay = i;
+            int endingDay = j;
+            int divisor = k;
+            int totalBeatifulDays = 0;
+
+            List<int> allDays = new List<int>();
+            allDays.Add(startingDay);
+            allDays.Add(endingDay);
+
+            for (int iii = startingDay + 1; iii < endingDay; iii++)
+            {
+                allDays.Add(iii);
+            }
+
+            foreach (int eachDay in allDays)
+            {
+                bool isBeatifulDay = false;
+                char[] dayToArray = eachDay.ToString().ToCharArray();
+                Array.Reverse(dayToArray);
+                string reversedDayStr = new string(dayToArray);
+                int reverseNumber = int.Parse(reversedDayStr);
+                int difference = eachDay - reverseNumber;
+                isBeatifulDay = difference % divisor == 0;
+                if (isBeatifulDay)
+                {
+                    totalBeatifulDays++;
+                }
+            }
+            return totalBeatifulDays;
+        }
+
+        public static string angryProfessor(int k, List<int> a)
+        {
+            const string classCancelled = "YES";
+            const string classNotCancelled = "NO";
+            string output = "";
+            int thresholdNumberOfStudents = k;
+            
+            int studentsOnTime = 0;
+            int studentsLate = 0;
+
+            foreach (int studentArrival in a)
+            {
+                if (studentArrival <= 0)
+                {
+                    studentsOnTime++;
+                }
+                else if (studentArrival > 0)
+                {
+                    studentsLate++;
+                }
+            }
+
+            if (studentsOnTime >= thresholdNumberOfStudents)
+            {
+                output = classNotCancelled;
+            }
+            else
+            {
+                output = classCancelled;
+            }
+
+            return output;
+
+        }
+        
+        static string catAndMouse(int x, int y, int z)
+        {
+            int catOne = x;
+            int catTwo = y;
+            int MouseLocation = z;
+            string returnValue = "";
+
+            if (x > 0 && y > 0 && z > 0)
+            {
+                int StepsForMouseOne = Math.Abs(MouseLocation - catOne);
+                int StepsForMouseTwo = Math.Abs(MouseLocation - catTwo);
+
+                if (StepsForMouseOne == StepsForMouseTwo)
+                {
+                    returnValue = "Mouse C";
+                }
+                else if (StepsForMouseOne < StepsForMouseTwo)
+                {
+                    returnValue = "Cat A";
+                }
+                else if (StepsForMouseTwo < StepsForMouseOne)
+                {
+                    returnValue = "Cat B";
+                }
+            }
+
+            return returnValue;
+        }
+        
+        static int getMoneySpent(int[] keyboards, int[] drives, int b)
+        {
+            int canBeBought = -1;
+
+            List<int> possibleTotal = new List<int>();
+            List<int> keyboardsAr = keyboards.ToList();
+            List<int> drivesAr = drives.ToList();
+            
+            foreach (int keyboard in keyboardsAr)
+            {
+                foreach (int drive in drivesAr)
+                {
+                    int totalCost = keyboard + drive;
+                    if (totalCost <= b)
+                    {
+                        possibleTotal.Add(totalCost);
+                    }
+                }
+            }
+
+            if (possibleTotal.Count >= 1)
+            {
+                canBeBought = possibleTotal.Max();
+            }
+
+            return canBeBought;
+            // took too long to solve
+        }
+        
+        public static int countingValleys(int steps, string path)
+        {
+                // find valleys
+                //d -
+                // u +
+
+                int valleys = 0;
+                int whereAmI = 0; // sea level
+                bool inValley = false;
+                if (steps == path.Length)
+                {
+                    
+                    
+                    Dictionary<int, char> hash = new Dictionary<int, char>();
+                    char[] pathAr = path.ToCharArray();
+
+                    for (int i = 0; i < steps; i++)
+                    {
+                        hash.Add(i, pathAr[i]);
+                    }
+                    
+                    for (int jj = 0; jj < steps; jj++)
+                    {
+                        if (hash[jj].Equals('U'))
+                        {
+                            whereAmI++;
+                            if (inValley && whereAmI == 0)
+                            {
+                                // leaving valley
+                                valleys = valleys + 1;
+                            }
+                        }
+                        else
+                        {
+                            whereAmI = whereAmI - 1;
+                            if (whereAmI < 1) 
+                            {
+                                // i am in a valley
+                                inValley = true;
+                            }
+                        }
+                    }
+                }
+                return valleys;
+        }
+        
+        // Score 9.60 pass 26 out of 27 test cases
+        public static int pageCount(int n, int p)
+        {
+            int numberOfPagesInBook = n;    
+            int numberOfPageToTurnTo = p;
+            
+            // they can start from 1
+            int counterFromFirstPage = 0;
+            for (int i = 1; i <= numberOfPagesInBook; i++)
+            {
+               
+                if (i <= numberOfPageToTurnTo)
+                {
+                    counterFromFirstPage++;
+                }
+            }
+            
+            // they can start from last
+            int counterFromLastPage = 0;
+
+            for (int ii = numberOfPagesInBook; ii >= 1; ii--)
+            {
+                if (ii > numberOfPageToTurnTo)
+                {
+                    counterFromLastPage++;
+                }
+            }
+            return Math.Min((counterFromFirstPage/2), (counterFromLastPage/2));
+        }
+
+        public static int sockMerchant(int n, List<int> ar)
+        {
+            // Given an array of integers representing the color of each sock,
+            // each int is a colour
+
+            int numberOfPairs = 0;
+            Dictionary<int, int> sockTracker = new Dictionary<int, int>();
+
+            foreach (int SingleSock in ar)
+            {
+                if (sockTracker.ContainsKey(SingleSock))
+                {
+                    sockTracker[SingleSock]++;
+                }
+                else
+                {
+                    sockTracker[SingleSock] = 1;
+                }
+            }
+
+            foreach (KeyValuePair<int, int> ColouredSocks in sockTracker)
+            {
+                numberOfPairs += ColouredSocks.Value / 2;
+            }
+            return numberOfPairs;
+        }
+
+        public static void bonAppetit(List<int> bill, int k, int b)
+        {
+            const string isEvenSplit = "Bon Appetit";
+            int AnnaDoesntEatThis = k;
+            int AnnaCountributionToBill = b;
+
+            List<int> AnnaEats = new List<int>();
+
+            for (int i = 0; i < bill.Count; i++)
+            {
+                if (i != AnnaDoesntEatThis)
+                {
+                    AnnaEats.Add(bill[i]);
+                }  
+            }
+
+            decimal AnnaHasTopay = AnnaEats.Sum(x=> x) / 2;
+            decimal rounded = Math.Ceiling(AnnaHasTopay);
+
+            if (rounded == AnnaCountributionToBill)
+            {
+                Console.WriteLine(isEvenSplit);
+            }
+            else
+            {
+                decimal payBack = AnnaCountributionToBill - rounded;
+                Console.WriteLine(payBack);
+            }
+
         }
         
         public static int migratoryBirds(List<int> arr)
